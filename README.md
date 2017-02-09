@@ -73,3 +73,5 @@
 			<script type="text/javascript" src="Map.js"></script>
 </body>
 </html>
+
+$(".col-sm-12").removeClass("col-sm-12").addClass("col-sm-7");
