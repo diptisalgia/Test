@@ -349,3 +349,83 @@ It will allow u to create multiple clusters
 
 $(".col-sm-12").removeClass("col-sm-12").addClass("col-sm-7");
 
+
+
+
+// Login Page
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="container-fluid">
+	<div class="panel panel-info">
+	<div class="panel-header">
+	  <h1 class="text-center">Login Page</h1>
+	</div>
+	<div class="panel-body">
+
+   <form class="form-horizontal" action="Index.html">
+     <div class="form-group">
+       <label class="control-label  col-sm-offset-3 col-sm-2" for="username">User Name</label>
+        <div class="col-sm-4">
+          <input type="text" class="form-control" id="username" placeholder="Enter User Name">
+        </div>
+     </div>
+     <div class="form-group">
+      <label class="control-label col-sm-offset-3 col-sm-2" for="password">Password</label>
+        <div class="col-sm-4">
+          <input type="text" class="form-control" id="password" placeholder="Enter Password">
+        </div>
+     </div>
+     <div class="form-group">
+       <div class="col-sm-offset-6">
+         <button type="submit" class="btn btn-default">Submit</button>
+       </div>
+     </div>
+   </form>
+
+   </div>
+	</div>
+</div>
+</body>
+</html>
+
+
+
+
+// Map Server
+var express=require('express');
+var app=require('express')();
+var http=require('http');
+var server=http.createServer(app);
+var router=express.Router();
+var bodyParser=require('body-parser');
+var mongoose=require('mongoose');
+
+app.use(express.static(__dirname+'/public'));
+app.use(express.static(__dirname+'/views'));
+app.use(bodyParser.json());
+app.set('view engine','ejs');
+app.engine('html',require('ejs').renderFile);
+
+server.listen(3000,function(){
+  console.log('listening on port 3000');
+});
+
+app.get('/',function(req,res){
+  res.sendFile(__dirname+"/Views/"+"Login.html");
+});
+
+app.get('/Index',function(req,res){
+  res.sendFile(__dirname+"/Views/"+"Login.html");
+});
+
+
