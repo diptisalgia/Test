@@ -1,3 +1,11 @@
+  sessionStorage.setItem("username",$("#username").val().trim()); in Login.js
+  in map.js
+  if(!sessionStorage.getItem("username")){
+		console.log("HI"+sessionStorage.getItem("username"));
+		window.location.href="/";
+	}
+
+
 This is my First Text File.
 Now I have changed this file
 Hurray
