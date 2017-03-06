@@ -1,3 +1,16 @@
+  var x=new Date();
+		var dd=x.getDate();
+		var mm=x.getMonth();
+
+		var yy=x.getFullYear();
+		var isodate=new Date(yy,mm,dd);
+		console.log("  "+" ,year:"+x.getFullYear()+"date: "+x.getDate()+"month: "+x.getMonth());
+		console.log("ISO FORMAT: "+isodate.toISOString()+" "+isodate);
+	myMaps.Init();
+  
+  
+  
+  
   sessionStorage.setItem("username",$("#username").val().trim()); in Login.js
   in map.js
   if(!sessionStorage.getItem("username")){
