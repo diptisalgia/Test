@@ -1,0 +1,135 @@
+Basic JEE Servlet and JSP:
+
+DAY 1)Introduction to Web Application:
+DAY 2)Servlets in details
+DAY 3)Session management
+DAY 4)Basics of JSP
+
+--------------------------------------------Introduction to Web Application--------------------------------------------
+
+-->what is web applicationa and why do we prefer web application?
+   Application that u access on web are web application, since they are easily accessible and from anywhere and require small set of requirement i.e internet , address link and browser
+   
+ Server side technology-Servlets
+ Client - Server technology
+ client(Browser) can interact with server
+ client and server talks using protocol(HTTP)
+ client uses Http prtocol to interact with server. there are different protocols but oftenly used is HTTP protocol
+ 
+ Browsers sends request to web server and web server reads request and generate response
+ 
+ if request is done using Http request then request is Http request  and response generally in HTML page
+ 
+ Server Side technology
+  1)JSP
+  2)Java Servlets
+  3)Active Server Pages
+  4)PHP 
+  
+  request goes to web server and checks if request is success returns 200 status and  resposne object conatins: content type ,status,etc
+  2 types of request : Get and Post
+  
+  In Request Header:
+  type of request , page u r looking for and protocol info , browser
+   
+  GET and POST(types of request mainly)
+ Get-getting or retrieving data from server, you can send data through url and there is some limitations i.e 255 characters
+ Post- this request has a body and it encapsulate all the data u want to send to server
+ clicking on a hyperlink is genearlly Get request
+ 
+ main job of web server is: to retrieve page and server the page
+ but what if there are some conditions or dynamic requirement based on which what to return or create page dynamicaly
+ for this third party(serverside application like servlet or jsp) is required to generate dynamic page and send to server  which server returns 
+
+ exchange of request and response_ web conatiner(execution of third party or servlet requests, managing servlets)
+ 
+-->web conatiner:
+  1)communication support 
+  2)lifecycle management of servlet(i.e creation of servlet object and multithreading support)
+  3)Declarative security (web.xml)
+  4)JSP support
+  internally it is the responsibilty of server to convert jsp pages to servlet
+  
+ web server is not for handling business logic , it just accepts and generate a response ,for business logic server side technology is required
+
+-->Servlet:
+   Basicaaly a servlet is a java class
+   and this java class is executed at server and life cycle of it is managed and maintained at server
+   We require web server+ web container who manages servlet lifecycle(Here we are using Tomcat)
+
+   Servlet Key API:
+   Servlet ServletConfig
+   Generic Servlet
+   HttpServlet
+   
+   
+ TOMCAT Structure
+   webapps
+     servlet-Demo(Project your)
+	   Web-Inf
+	       Classes(.class files)
+		   src
+		   web.xml
+
+web.xml files is deployment Descriptor
+
+
+Servlet:
+Http servlets have many methods like doGet , doPost
+
+mapping in web,xml regarding servlet class
+<servlet> and <servlet-mapping>		   
+	   
+ -------------------------------------------------------------------------Second Day---------------------------------------------------
+ 1) Life Cycle of servlet:
+ 2)How to send parameters and request object 
+ 3)How to genearte response
+ 
+ in web.xml
+ <load-on-startup>:whenever the server is started then that time servlet io loaded
+ 
+ Generic Servlet is an abstarct method
+ 
+ LifeCycle method of any servlet:
+ init 
+ service
+ destroy
+  
+  
+1)  Web conatoner Check whether the servlet is loaded or not
+    if not then load the servlet
+2) then init initializes the servlet(it is mandatory of for first object  )
+  
+3)service ande destroy methods
+
+if u want to do some initialization like database connectivity etc 
+when object is created at that time it normal java class but when init is 
+called simple java object is treated as servlet
+ 
+for loading on startup and when to provide some parameters :
+<init -param>
+
+servletConfig -1 per servlets 
+servletContext-1 per web application
+
+if a variable needs to be accessed by multiple servlets for that we need to keeep the variale in servletContext
+
+assignment:
+1)upload a file (<input type=file>)
+2)save data to db from form
+
+scopes:
+request
+HttpSession
+ServletContext
+
+
+Request Dispatcher:
+include(1-2-3-2-1) comes back to first servlet (all servlets responses are accumulated)
+forward give call to second servlet and gives result of servlet 2(servlet 2 gives response) but url is of servlet1
+
+  
+  
+  
+  
+  
