@@ -1,3 +1,5 @@
+http://way2java.com/servlets/difference-between-include-and-forward-in-requestdispatcher/
+
 Basic JEE Servlet and JSP:
 
 DAY 1)Introduction to Web Application:
