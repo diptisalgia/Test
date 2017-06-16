@@ -1,5 +1,3 @@
-http://way2java.com/servlets/difference-between-include-and-forward-in-requestdispatcher/
-
 Basic JEE Servlet and JSP:
 
 DAY 1)Introduction to Web Application:
@@ -88,7 +86,8 @@ mapping in web,xml regarding servlet class
  3)How to genearte response
  
  in web.xml
- <load-on-startup>:whenever the server is started then that time servlet io loaded
+ <load-on-startup>:whenever the server is started then that time servlet is loaded , irrespective of request
+  if u dont specify this then it will by default load the servlet when the first request comes
  
  Generic Servlet is an abstarct method
  
@@ -104,10 +103,39 @@ mapping in web,xml regarding servlet class
   
 3)service ande destroy methods
 
-if u want to do some initialization like database connectivity etc 
-when object is created at that time it normal java class but when init is 
-called simple java object is treated as servlet
- 
+
+
+----------<init-param>----
+Before initialization of servlet only the object of that particular servlet class is getting created
+normally if u want to do some default initialozation we do it in the constructors. In case of servlet it is not recommended
+to use constructors if u want to do some initialization lets say if u want to get connected to databasse or if u want to pass certain parameter when that particular
+servlet gets initialized at that time only ,in that case u cannot rely on constructors only as we have seen the constructor is getting called before the 
+initialization of servlet.So if u have to do something related to that servlet behavoiur we can't do it in constructor so initialization is another method.
+
+if we are providing constructor then why we have init method, the reason is when object is getting created at that time its normal java classs object but to add servlet behaviour , create multithreaded
+support , all activity it actually internally web container makes use of init method , when init is used normal java object is conveterd to servlet object
+
+If u want to pass certain parameters when servlet get initialized then u can make use of <init-param> methods in web.xml.
+<init-param>
+ <param-name>user</param-name>
+<param-value>persistet</param-value>  
+</init-param>
+
+All these parametrs are made avialable through config object.
+to access in servlet:
+String userName=getServletConfig().getInitParameter("user");
+
+If u try to overload another init method with parameters: init(ServletConfig config) then u need to use
+super.init(config)--call to parent classinit method
+
+
+getWriter method gets connected to response stream.and then u can push all data to stream.
+U can specify the content of response using
+response.setContent(text/plain);
+
+request.getMethod specify the type of method(like post or get)
+
+
 for loading on startup and when to provide some parameters :
 <init -param>
 
@@ -132,6 +160,137 @@ forward give call to second servlet and gives result of servlet 2(servlet 2 give
 
   
   
+------------------------------------4rth day JSP---------------------------
   
-  
-  
+  entire HTML page can be provided in response.getWriter.print()
+this is making page complex so we can do reverse  --maximum html content and dynamic content in java so use in JSP
+JSP-- java code embedded in HTML
+
+<h1>WELCOME</h1>
+<%java code%>   and in scriplets put java code
+
+MVC1-- JSP_bean models(here again in projects used more java and less static so then came MVC2 )
+MVC --Model-POJO(business actions, entites)
+      View-JSP(to display data so Html and presentation part are more in jsp)
+      Controller-Servlets(read request and send it to appropriate page)
+
+repalcing servlet with jsp is not proper idea, when amount of java code is more and less html than why to go for jsp
+
+When request goes to JSP-->then it is transleted to java class --> complied and executed
+
+JSP pages contains:
+
+comments:
+<%-- --%>
+directives:
+<%@
+scriplets
+<%!
+expression:
+<%=(u dont have to write print)
+<jsp standard
+JSTL--basic prog,database,format  u can find if else, for eac loop
+Custom actions.tags
+EL expression language${}
+
+
+at this location we have .class and java file for JSp page
+C:\Users\dipti_salgia\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\work\Catalina\localhost\JSPDemo\org\apache\jsp
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1" isErrorPage="true" session="true"%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+<h1>Welcome to MY JSP Pages</h1>
+<%--This id JSP comment --%>
+<%!int count=20; %> <%--it becomes are part of class --%> 
+<%int cnt=20; 
+ for(int i=0;i<10;i++){
+	 out.println(i);
+ }
+%>
+value of count <%=count++ %>
+value of cnt <%=cnt++ %>
+value of 4+5 is ${4+5}
+</body>
+</html>
+int count becomes a part of class when declaring using <%%>
+
+on applying isError page=true and then check the .java file of JSP or in jsp page
+u see exception object is available only if u specify iserror -true
+
+Scope in servletsL:
+request
+session 
+context
+
+Scopes in JSP 
+page(current Object) 
+request
+session
+application(nothing but context)
+
+if u want to access method directlu u can access it using pageContext.getServletContetx() in jso
+
+
+
+
+EL expressions:
+${}
+
+if u want to retrive something then u can specify certain conditions as well
+
+servlet provide data to jsop page for presentation 
+
+EL takes from scopes it takes from session scope or request scope but if u have sam evariable in both the scopes then use :
+EL uses 2 operators : 
+1)[] eg: ${names[2]}
+2)dot.property
+
+in servlet u created map:
+Map<String,Integer> map=new HashMap<>();
+map.put("Ram",100);
+map.put("Don",110);
+request.setAttribute("marksMap",map);
+
+in Jsp
+Marks of Ram: ${marksMap.Ram} here Ram is key of map
+
+to retrive valur from bean which is set in request:
+${requestScope.employee.empName}
+if u specify requestScope it only looks in requestScope and does not look in other scopes
+
+JSTL is programming language:
+taglib-- to include user defined tag libraries
+page<%@ %>- directive
+<%@include file="">directives: includes anotyher page in ur jsp  this is static
+
+for dynaic include and forward i.e of dispatcher include or dispatcher forward use';
+<jsp:iclude page=""></jsp:include>
+
+u can add jstl lib in lib folder and can create folder for tagslibrary
+
+for loop in jstl:
+
+<c:forEach items="${fruitNames}" var="fruit">
+${fruit}
+</c:foreach>
+
+
+
+
+
+
+
+
+
+
+
+<jsp 
