@@ -1,0 +1,237 @@
+--------------------------------Lambda Expressiona and Functional Interface--------------------------
+Links:
+http://javarevisited.blogspot.in/2014/02/10-example-of-lambda-expressions-in-java8.html
+http://viralpatel.net/blogs/lambda-expressions-java-tutorial/
+
+
+****************What are Functional Interfaces***************
+
+
+
+(Please study first Link ...)
+
+
+In Java, a Marker interface is an interface with no methods or fields declaration. In simple words, marker interface is an empty interface. Similarly, a Functional Interface is an interface with just one abstract method declared in it.
+
+java.lang.Runnable is an example of a Functional Interface. There is only one method void run() declared in Runnable interface. Similarly ActionListener interface is also a Functional Interface. We use Anonymous inner classes to instantiate objects of functional interface. With Lambda expressions, this can be simplified.
+
+Lambda expression is a shorthand that allows you to write a method in the same place you are going to use it. Especially useful in places where a method is being used only once, and the method definition is short. It saves you the effort of declaring and writing a separate method to the containing class.
+
+// Before Java 8 runnable interface is used as:
+
+The Runnable Interface requires of the class to implement the method run() like so:
+
+public class MyRunnableTask implements Runnable {
+     public void run() {
+         // do stuff here
+     }
+}
+And then use it like this:
+
+Thread t = new Thread(new MyRunnableTask());
+t.start();
+
+
+-----> Anonymous Type
+
+Note that you do not need to define a class as usual, you can do all of that inline:
+
+Thread t = new Thread(new Runnable() {
+    public void run() {
+        // stuff here
+    }
+});
+t.start();
+This is similar to the above, only you don't create another named class
+
+
+
+//Java 8 way:
+
+ new Thread( () -> System.out.println("In Java8, Lambda expression rocks !!") ).start(); 
+ 
+ 
+ 
+ LAmbda Expression Structure:
+ et’s check the structure of lambda expressions.
+
+A lambda expression can have zero, one or more parameters.
+The type of the parameters can be explicitly declared or it can be inferred from the context. e.g. (int a) is same as just (a)
+Parameters are enclosed in parentheses and separated by commas. e.g. (a, b) or (int a, int b) or (String a, int b, float c)
+Empty parentheses are used to represent an empty set of parameters. e.g. () -> 42
+When there is a single parameter, if its type is inferred, it is not mandatory to use parentheses. e.g. a -> return a*a
+The body of the lambda expressions can contain zero, one or more statements.
+If body of lambda expression has single statement curly brackets are not mandatory and the return type of the anonymous function is the same as that of the body expression.
+When there is more than one statement in body than these must be enclosed in curly brackets (a code block) and the return type of the anonymous function is the same as the type of the value returned within the code block, or void if nothing is returned.
+
+
+
+-------------------------------COMPARATOR FOR SORTING-----------------------------
+1. Classic Comparator example.
+
+Comparator<Developer> byName = new Comparator<Developer>() {
+	@Override
+	public int compare(Developer o1, Developer o2) {
+		return o1.getName().compareTo(o2.getName());
+	}
+};
+
+2. Lambda expression equivalent.
+
+Comparator<Developer> byName =
+	(Developer o1, Developer o2)->o1.getName().compareTo(o2.getName());
+	
+	
+	
+	
+	******************1. Sort without Lambda*******************
+Example to compare the Developer objects using their age. Normally, you use Collections.sort and pass an anonymous Comparator class like this :
+
+TestSorting.java
+package com.mkyong.java8;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+public class TestSorting {
+
+	public static void main(String[] args) {
+
+		List<Developer> listDevs = getDevelopers();
+
+		System.out.println("Before Sort");
+		for (Developer developer : listDevs) {
+			System.out.println(developer);
+		}
+
+		//sort by age
+		Collections.sort(listDevs, new Comparator<Developer>() {
+			@Override
+			public int compare(Developer o1, Developer o2) {
+				return o1.getAge() - o2.getAge();
+			}
+		});
+
+		System.out.println("After Sort");
+		for (Developer developer : listDevs) {
+			System.out.println(developer);
+		}
+
+	}
+
+	private static List<Developer> getDevelopers() {
+
+		List<Developer> result = new ArrayList<Developer>();
+
+		result.add(new Developer("mkyong", new BigDecimal("70000"), 33));
+		result.add(new Developer("alvin", new BigDecimal("80000"), 20));
+		result.add(new Developer("jason", new BigDecimal("100000"), 10));
+		result.add(new Developer("iris", new BigDecimal("170000"), 55));
+
+		return result;
+
+	}
+
+}
+Output
+
+Before Sort
+Developer [name=mkyong, salary=70000, age=33]
+Developer [name=alvin, salary=80000, age=20]
+Developer [name=jason, salary=100000, age=10]
+Developer [name=iris, salary=170000, age=55]
+
+After Sort
+Developer [name=jason, salary=100000, age=10]
+Developer [name=alvin, salary=80000, age=20]
+Developer [name=mkyong, salary=70000, age=33]
+Developer [name=iris, salary=170000, age=55]
+
+
+--------->When the sorting requirement is changed, you just pass in another new anonymous Comparator class :
+
+//sort by age
+Collections.sort(listDevs, new Comparator<Developer>() {
+	@Override
+	public int compare(Developer o1, Developer o2) {
+		return o1.getAge() - o2.getAge();
+	}
+});
+
+//sort by name
+Collections.sort(listDevs, new Comparator<Developer>() {
+	@Override
+	public int compare(Developer o1, Developer o2) {
+		return o1.getName().compareTo(o2.getName());
+	}
+});
+
+//sort by salary
+Collections.sort(listDevs, new Comparator<Developer>() {
+	@Override
+	public int compare(Developer o1, Developer o2) {
+		return o1.getSalary().compareTo(o2.getSalary());
+	}
+});
+It works, but, do you think it is a bit weird to create a class just because you want to change a single line of code?
+
+
+
+****************************2. Sort with Lambda****************************
+In Java 8, the List interface is supports the sort method directly, no need to use Collections.sort anymore.
+
+//List.sort() since Java 8
+listDevs.sort(new Comparator<Developer>() {
+	@Override
+	public int compare(Developer o1, Developer o2) {
+		return o2.getAge() - o1.getAge();
+	}
+});
+Lambda expression example :
+
+TestSorting.java
+package com.mkyong.java8;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+public class TestSorting {
+
+	public static void main(String[] args) {
+
+		List<Developer> listDevs = getDevelopers();
+
+		System.out.println("Before Sort");
+		for (Developer developer : listDevs) {
+			System.out.println(developer);
+		}
+
+		System.out.println("After Sort");
+
+		//lambda here!
+		listDevs.sort((Developer o1, Developer o2)->o1.getAge()-o2.getAge());
+
+		//java 8 only, lambda also, to print the List
+		listDevs.forEach((developer)->System.out.println(developer));
+	}
+
+	private static List<Developer> getDevelopers() {
+
+		List<Developer> result = new ArrayList<Developer>();
+
+		result.add(new Developer("mkyong", new BigDecimal("70000"), 33));
+		result.add(new Developer("alvin", new BigDecimal("80000"), 20));
+		result.add(new Developer("jason", new BigDecimal("100000"), 10));
+		result.add(new Developer("iris", new BigDecimal("170000"), 55));
+
+		return result;
+
+	}
+
+}
+
+ 

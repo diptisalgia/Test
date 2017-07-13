@@ -1,0 +1,339 @@
+----------------------------Anonymous Class----------------------
+
+LINKS:   http://java-questions.com/InnerClass-interview-questions.html  
+         http://cs-fundamentals.com/java-programming/java-anonymous-inner-classes.php
+
+
+(if we have Class One and other class Two which extends One then in upcasting we write:
+  One o=new Two();
+  so instead of creating class two separately we can use anonymou class
+  As
+  Class One{
+   psvm(
+     One o=new One(){
+	 // this is anonymous class i.e a subclass.. of one is created and instantiated 
+	 }
+   )
+   
+  }
+)
+
+
+
+--------------------------IMP TO UNDERSTAND-------------------------------------
+
+Anonymous inner classes of Java are called anonymous because they have no name. They are anonymous and inline. Anonymous classes are essentially inner classes and defined within some other classes.
+
+if you want to create only one sub-classed object of a class, then you need not to give the class a name and you can use anonymous inner class in such a case. Anonymous inner classes can be defined not just within a method, but even within an argument to a method. Anonymous inner classes cannot have explicit constructors declared because they have no name to give the constructor.
+
+
+Anonymous inner classes are defined at the same time they are instantiated with new. They are not declared as local classes are done rather anonymous inner classes are defined in the new expression itself, as part of a statement. An anonymous inner class declaration expression looks like a constructor invocation, except that there is a class definition contained in a block of code.
+
+we must understand that an anonymous inner class is not an independent inner class rather it is a sub-class of either a class type or an anonymous implementer of the specified interface type. So, when anonymous inner classes are in picture polymorphism must be there. And when polymorphism is there you can only call methods from parent class reference those are defined in the reference variable type. Java's anonymous inner classes being sub-classes or implementers do strictly adhere to the polymorphism rules.
+
+
+******Java Anonymous Inner Class of a Class Type*******
+Let's take an example of seemingly strange looking syntax that defines an anonymous inner class. In following example code, the Dog reference variable dog refers not to an instance of Dog but to an instance of an anonymous inner subclass of Dog.
+
+/* AnonymousClassDemo.java */
+ 
+public class AnonymousClassDemo
+{
+  public static void main(String[] args)
+  {
+    Dog dog = new Dog() {
+      public void someDog ()
+      {
+        System.out.println("Anonymous Dog");
+      }			
+    }; // anonymous class body closes here
+    //dog contains an object of anonymous subclass of Dog.
+    dog.someDog();
+  }
+}
+ 
+class Dog
+{
+  public void someDog()
+  {
+    System.out.println("Classic Dog");
+  }
+}
+In above piece of code; see the code line Dog dog = new Dog() {, there is a brace at the end of line, not a semicolon. This curly brace opens the class definition and declares a new class that has no name (anonymous class). Now let's enter into the body of newly defined subclass of class Dog and you will see that someDog() is being overridden. This is the crux of defining an anonymous inner class because we want to override one or more methods of the super class on the fly.
+
+Remember, anonymous inner classes are inherited ones, and we always use a superclass reference variable to refer to an anonymous subclass object. And, we can only call methods on an anonymous inner class object that are defined in the superclass. Though, we can introduce new methods in anonymous inner class, but we cannot access them through the reference variable of superclass because superclass does not know anything about new methods or data members introduced in subclass.
+
+It would be interesting to know that you can also create an anonymous inner class for an interface type. Magically you can also pass anonymous inner class as an argument to a method. We will talk of them in subsequent sections.
+
+
+
+
+
+*************Java Anonymous Implementer of an Interface Type**************
+In previous example as we have created an anonymous inner class for a class type. Likewise, an anonymous inner class can implement an interface anonymously. Here is an example.
+
+/* AnonymousInterfaceDemo.java */
+interface Manageable
+{
+  public void manage();
+}
+ 
+public class AnonymousInterfaceDemo
+{
+  public static void main(String[] args)
+  {
+    Manageable m = new Manageable() {
+      public void manage()
+      {
+        System.out.println("It is manageable");
+      }			
+    }; // anonymous interface implementer closes here
+    //m contains an object of anonymous interface implementer of Manageable.
+    m.manage();
+  }
+}
+The above code, like the Dog example, still creates an instance of anonymous inner class, but this time the new just-in-time class is an implementer of the Manageable interface. You would have also noticed the unusual but perfectly valid syntax Manageable m = new Manageable() {, where Manageable is an interface rather than a non-abstract class type. The code looks like instantiating a Manageable object but that is not so. It is creating an instance of a new, anonymous implementer of Manageable.
+
+It is very important to note about anonymous inner classes that anonymous inner classes can either implement an interface or extend a class, they can't do both at the same time. There is no such mechanism by which an anonymous inner class can implement multiple interfaces. An anonymous inner class can't even extend a class and implement an interface at the same time.
+
+
+
+
+
+
+***************Java Anonymous Inner Class in Method Arguments*********************
+Anonymous inner classes in method arguments become handy and very useful when it comes to event handling in Java Swing, which is GUI model Java follows. Following is a trivial example acquaints you to the syntax of anonymous inner classes in method arguments.
+
+/* MethodArgumentAnonymousClassDemo.java */
+ 
+interface Manageable
+{
+  public void manage();
+}
+ 
+class Manager
+{
+  public void canManage(Manageable m)
+  {
+	m.manage();
+  }
+}
+public class MethodArgumentAnonymousClassDemo
+{
+  public static void main(String[] args)
+  {
+    Manager m = new Manager();
+    m.canManage (new Manageable ()	
+	{
+      public void manage()
+      {
+        System.out.println("Yes, it is being anonymously managed!");
+      }			
+    }); // anonymous interface implementer as method argument closes here
+  }
+}
+If you read the above example carefully, you would see that there is no class that implements Manageable, therefore, you can't create an instance and assign it to Manageable reference. So, you first need a class that implements Manageable, and then you need an instance of that class to pass to the Manager class's canManage() method. If this is needed only once, you can simply define an anonymous inner class right inside the argument. That's all, the above example demonstrates about anonymous inner classes in method arguments.
+
+
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&  MCQs   &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+1. 	Which is true about an anonymous inner class?
+A.	It can extend exactly one class and implement exactly one interface.
+B.	It can extend exactly one class and can implement multiple interfaces.
+C.	It can extend exactly one class or implement exactly one interface.
+D.	It can implement multiple interfaces regardless of whether it also extends a class.
+Answer: Option C
+
+Explanation:
+
+Option C is correct because the syntax of an anonymous inner class allows for only one named type after the new, and that type must be either a single interface (in which case the anonymous class implements that one interface) or a single class (in which case the anonymous class extends that one class).
+
+Option A, B, D, and E are all incorrect because they don't follow the syntax rules described in the response for answer Option C.
+
+
+----------------------------
+
+2. 	
+class Boo 
+{
+    Boo(String s) { }
+    Boo() { }
+}
+class Bar extends Boo 
+{
+    Bar() { }
+    Bar(String s) {super(s);}
+    void zoo() 
+    {
+    // insert code here
+    }
+}
+which one create an anonymous inner class from within class Bar?
+A.	Boo f = new Boo(24) { };
+B.	Boo f = new Bar() { };
+C.	Bar f = new Boo(String s) { };
+D.	Boo f = new Boo.Bar(String s) { };
+Answer: Option B
+
+Explanation:
+
+Option B is correct because anonymous inner classes are no different from any other class when it comes to polymorphism. That means you are always allowed to declare a reference variable of the superclass type and have that reference variable refer to an instance of a subclass type, which in this case is an anonymous subclass of Bar. Since Bar is a subclass of Boo, it all works.
+
+Option A is incorrect because it passes an int to the Boo constructor, and there is no matching constructor in the Boo class.
+
+Option C is incorrect because it violates the rules of polymorphismâ€”you cannot refer to a superclass type using a reference variable declared as the subclass type. The superclass is not guaranteed to have everything the subclass has.
+
+Option D uses incorrect syntax.
+
+--------------------------------------------
+3. 	
+Which statement is true about a static nested class?
+A.	You must have a reference to an instance of the enclosing class in order to instantiate it.
+B.	It does not have access to nonstatic members of the enclosing class.
+C.	It's variables and methods must be static.
+D.	It must extend the enclosing class.
+Answer: Option B
+
+Explanation:
+
+Option B is correct because a static nested class is not tied to an instance of the enclosing class, and thus can't access the nonstatic members of the class (just as a static method can't access nonstatic members of a class).
+
+Option A is incorrect because static nested classes do not need (and can't use) a reference to an instance of the enclosing class.
+
+Option C is incorrect because static nested classes can declare and define nonstatic members.
+
+Option D is wrong because it just is. There's no rule that says an inner or nested class has to extend anything.
+
+-------------------------------------
+4. 	
+Which is true about a method-local inner class?
+A.	It must be marked final.
+B.	It can be marked abstract.
+C.	It can be marked public.
+D.	It can be marked static.
+Answer: Option B
+
+Explanation:
+
+Option B is correct because a method-local inner class can be abstract, although it means a subclass of the inner class must be created if the abstract class is to be used (so an abstract method-local inner class is probably not useful).
+
+Option A is incorrect because a method-local inner class does not have to be declared final (although it is legal to do so).
+
+C and D are incorrect because a method-local inner class cannot be made public (remember-you cannot mark any local variables as public), or static.
+
+
+---------------------------------------
+Q3) What is static member class?
+
+Ans) A static member class behaves much like an ordinary top-level class, except that it can access the static members of the class that contains it. The static nested class can be accessed as the other static members of the enclosing class without having an instance of the outer class. The static class can contain non-static and static members and methods.
+
+public class InnerClass { 
+ 	static class StaticInner { 
+ 		static int i = 9; 
+		int no = 6; 
+		private void method() {} 
+		public void method1() {} 
+		static void method2() {} 
+		final void method3() {} 
+ 	} 
+}
+The static inner class can be accessed from Outer Class in the following manner:
+
+InnerClass.StaticInner staticObj= new InnerClass. StaticInner ();
+No outer class instance is required to instantiate the nested static class because the static class is a static member of the enclosing class.
+
+----------------------------------------
+
+Q4) What are non static inner classes?
+
+Ans) The different type of static inner classes are: Non - static inner classes – classes associated with the object of the enclosing class.
+
+----> Member class - Classes declared outside a function (hence a "member") and not declared "static".
+The member class can be declared as public, private, protected, final and abstract. E.g.
+
+public class InnerClass { 
+	class MemberClass {
+		public void  method1() { } 
+	} 
+}
+
+
+-----> Method local class – The inner class declared inside the method is called method local inner class. Method local inner class can only be declared as final or abstract. Method local class can only access global variables or method local variables if declared as final
+
+public class InnerClass {
+	int i = 9; 
+	public void method1() {
+		final int k = 6; 
+		class MethodLocal { 
+		  MethodLocal() { 
+			System.out.println(k  + i); 
+		  } 
+		} 
+	} 
+}
+
+
+----> Anonymous inner class - These are local classes which are automatically declared and instantiated in the middle of an expression. Also, like local classes, anonymous classes cannot be public, private, protected, or static. They can specify arguments to the constructor of the superclass, but cannot otherwise have a constructor. They can implement only one interface or extend a class.
+Anonymous class cannot define any static fields, methods, or classes, except for static final constants.
+Also, like local classes, anonymous classes cannot be public, private, protected, or static
+
+Some examples:
+public class MyFrame extends JFrame { 
+	JButton btn = new JButton(); 
+	MyFrame() { 
+		btn.addActionListener(new  ActionListener() { 
+			public void  actionPerformed(ActionEvent e) {} 
+		}); 
+	} 
+}
+//Anonymous class used with comparator 
+List<Parent> l = new ArrayList<Parent>(); 
+l.add(new Parent(2)); 
+l.add(new Parent(3)); 
+Collections.sort(l, new Comparator() { 
+	public int compare(Object o1,  Object o2) { 
+		Parent prt1 = (Parent) o1; 
+		Parent prt2 = (Parent) o2; 
+		if (prt1.getAge() >  prt2.getAge()) { 
+			return -1; 
+		}else if(prt1.getAge()<prt2.getAge())  { 
+			return 1; 
+		} else { 
+			return 0; 
+		} 
+	} 
+});
+
+--------------------------------------------\
+Q9) If you compile a file containing inner class how many .class files are created and what are all of them accessible in usual way?
+
+Ans) If a inner class enclosed with an outer class is compiled then one .class file for each inner class an a .class file for the outer class is created. e.g.
+
+class EnclosingOuter {
+	class Inner{ }
+}
+If you compile the above code with command
+
+% javac EnclosingOuter.java 
+Two files are created will be created. Though a separate inner class file is generated, the inner class file is not accessible in the usual way.
+
+EnclosingOuter.class 
+EnclosingOuter$Inner.class
+
+-------------------------------------------
+Q6)What are the advantages of Inner classes?
+
+Ans) The embedding of inner class into the outer class in the case when the inner class is to be used only by one class i.e. the outer class makes the package more streamlined. Nesting the inner class code where it is used (inside the outer class) makes the code more readable and maintainable.
+
+The inner class shares a special relationship with the outer class i.e. the inner class has access to all members of the outer class and still have its own type is the main advantages of Inner class. Advantage of inner class is that they can be hidden from the other classes in the same package and still have the access to all the members (private also) of the enclosing class. So the outer class members which are going to be used by the inner class can be made private and the inner class members can be hidden from the classes in the same package. This increases the level of encapsulation.
+
+If a class A is written requires another class B for its own use, there are two ways to do this. One way is to write a separate class B or to write an inner class B inside class A. Advantage of writing the inner class B in the class A is you can avoid having a separate class. Inner classes are best used in the event handling mechanism and to implement the helper classes. The advantage of using inner class for event handling mechanism is that the use of if/else to select the component to be handled can be avoided. If inner classes are used each component gets its own event handler and each event handler implicitly knows the component it is working for.
+
+Q7)What are disadvantages of using inner classes?
+
+Ans)
+
+Using inner class increases the total number of classes being used by the application. For all the classes created by JVM and loaded in the memory, jvm has to perform some tasks like creating the object of type class. Jvm may have to perform some routine tasks for these extra classes created which may result slower performance if the application is using more number of inner classes.
+Inner classes get limited support of ide/tools as compared to the top level classes, so working with the inner classes is sometimes annoying for the developer.
