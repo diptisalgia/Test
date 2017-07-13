@@ -66,6 +66,12 @@ When there is more than one statement in body than these must be enclosed in cur
 
 
 
+
+
+*********************Lambda Expression***************
+Lambda expression provides implementation of functional interface. An interface which has only one abstract method is called functional interface. Java provides an anotation @FunctionalInterface, which is used to declare an interface as functional interface.
+
+
 -------------------------------COMPARATOR FOR SORTING-----------------------------
 1. Classic Comparator example.
 
