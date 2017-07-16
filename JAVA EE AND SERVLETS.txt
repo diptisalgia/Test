@@ -73,6 +73,8 @@ DAY 4)Basics of JSP
 
 web.xml files is deployment Descriptor
 
+Deployment Descriptor: In a java web application a file named web.xml is known as deployment descriptor. It is a xml file and <web-app> is the root element for it. When a request comes web server uses web.xml file to map the URL of the request to the specific code that handle the request.
+
 
 Servlet:
 Http servlets have many methods like doGet , doPost
