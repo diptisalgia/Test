@@ -1,0 +1,77 @@
+/* 
+ You can use System.out.println for debugging purposes, e.g.
+ System.out.println("this is a debug message");
+ */
+
+package com.psl;
+
+public class Client {
+
+	public static int getMinimumTowers(int n, int k,int[] d){
+		
+	/* Write your code here
+	   Do not write System.out.println here or any other printing statements
+       Your code may get 0 marks if you do not follow above instruction. 
+	*/
+		
+     int count=0;		
+     int at=0;
+     int next=0;
+     int val=0;
+     for(int i=0;i<n-1;i++){
+       at=i;
+    	 System.out.println("i= "+i);
+    	 if(i==n-2){
+    		 next=d[i];
+    		 }
+    		 else{
+    		 next=d[i+1];	 
+    		 }
+   
+    	 System.out.println("d[i]="+d[i]+"next= "+next);
+   	     if(d[i]<=k && next<=k){
+   	    	 
+   		   val=d[i]+next;
+    			 X: for(int j=i+2;j<d.length;j++){
+    				 System.out.println("J: "+j);
+    				 val+=d[j];
+    				 System.out.println("val-"+val);
+                     if(val<=k){
+                    	 at=j;
+                     }
+                     else{
+                    	count++;
+                    	at=j;
+                    	 break X;
+                     }
+                     
+    			 }
+   		   i=at-1;
+   		   
+    		 }
+    	 
+    	 else{
+    		 System.out.println("**In ELSE**");
+    	 count++;	 
+    	 }
+    	 System.out.println("count= "+count);
+    	 System.out.println("new i= "+i);
+     }
+     
+	 return count;
+	}
+
+	public static void main(String args[]) {
+		/*
+		 * You can use Console input as well with the help of Scanner or
+		 * BufferedReader classes. Please provide input data in Input box on
+		 * right side of window.
+		 */
+		int n = 12;
+		int k = 2;
+		int d[] = {20,1,10,1,20,2,10,21,12,2,23};
+
+		System.out.println(getMinimumTowers(n, k, d));
+	}
+
+}
