@@ -5,6 +5,8 @@
 
 package com.psl;
 
+import java.util.Scanner;
+
 public class Client {
 
 	public static int getMinimumTowers(int n, int k,int[] d){
@@ -13,51 +15,34 @@ public class Client {
 	   Do not write System.out.println here or any other printing statements
        Your code may get 0 marks if you do not follow above instruction. 
 	*/
-		
-     int count=0;		
-     int at=0;
-     int next=0;
-     int val=0;
-     for(int i=0;i<n-1;i++){
-       at=i;
-    	 System.out.println("i= "+i);
-    	 if(i==n-2){
-    		 next=d[i];
-    		 }
-    		 else{
-    		 next=d[i+1];	 
-    		 }
-   
-    	 System.out.println("d[i]="+d[i]+"next= "+next);
-   	     if(d[i]<=k && next<=k){
-   	    	 
-   		   val=d[i]+next;
-    			 X: for(int j=i+2;j<d.length;j++){
-    				 System.out.println("J: "+j);
-    				 val+=d[j];
-    				 System.out.println("val-"+val);
-                     if(val<=k){
-                    	 at=j;
-                     }
-                     else{
-                    	count++;
-                    	at=j;
-                    	 break X;
-                     }
-                     
-    			 }
-   		   i=at-1;
-   		   
-    		 }
-    	 
-    	 else{
-    		 System.out.println("**In ELSE**");
-    	 count++;	 
-    	 }
-    	 System.out.println("count= "+count);
-    	 System.out.println("new i= "+i);
-     }
-     
+		int count=1;
+		int val=0;
+		int twice=2*k;
+        
+		if(n==2){
+			
+			if(d[0]<=k){
+				
+			}else{
+				count=count+1;
+			}
+		}
+		else{
+		for(int i=0;i<n-1;i++){
+			val=d[i];
+			for(int j=i+1;j<n-1;j++){
+				val+=d[j];
+				if(val<=twice && d[i]<=k && d[j]<=k){
+					continue;
+				}
+				else{
+					count++;
+					i=j-1;
+					break;
+				}
+			}
+		}
+		}
 	 return count;
 	}
 
@@ -67,10 +52,15 @@ public class Client {
 		 * BufferedReader classes. Please provide input data in Input box on
 		 * right side of window.
 		 */
-		int n = 12;
-		int k = 2;
-		int d[] = {20,1,10,1,20,2,10,21,12,2,23};
-
+		
+		Scanner sc=new Scanner(System.in);
+		int n = sc.nextInt();
+		int k = sc.nextInt();
+		int d[]=new int[n-1];
+		for(int i=0;i<n-1;i++){
+			d[i]=sc.nextInt();
+		}
+/*		{20,1,10,1,20,2,10,21,12,23} {3,2,4,1}  {2,1,1,1,2,2,1} {5,12,40,1,7}*/
 		System.out.println(getMinimumTowers(n, k, d));
 	}
 
